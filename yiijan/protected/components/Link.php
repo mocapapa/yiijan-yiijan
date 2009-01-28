@@ -2,7 +2,7 @@
 
 class Link extends Portlet
 {
-  public $title='Link';
+  public $title='Links';
 
 	public function init()
 	{

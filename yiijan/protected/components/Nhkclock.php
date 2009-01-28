@@ -2,7 +2,7 @@
 
 class Nhkclock extends Portlet
 {
-  public $title='Nhkclock';
+  public $title='NHK Clock';
 
 	public function init()
 	{
