@@ -8,6 +8,8 @@
 
     <?php $this->widget('RecentComments'); ?>
 
+    <?php $this->widget('Nhkclock'); ?>
+
     <?php $this->widget('Calendar'); ?>
 
   </div><!-- sidebar -->
