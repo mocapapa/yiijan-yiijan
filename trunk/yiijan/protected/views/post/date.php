@@ -1,5 +1,5 @@
 <?php if(!empty($_GET['date'])): ?>
-<h3>Posts Issued on "<?php echo CHtml::encode($_GET['date']); ?>"</h3>
+<h3>Posts Issued on "<?php echo CHtml::encode(date('F j, Y',$_GET['date'])); ?>"</h3>
 <?php endif; ?>
 
 <?php foreach($posts as $post): ?>
