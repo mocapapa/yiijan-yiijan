@@ -8,7 +8,8 @@
 $post = new Post;
 
 foreach($post->findArtclePostedThisMonth() as $article):
-print "[$article->id][$article->title][".date('F j', $article->createTime)."]<br>";
+#print "[$article->id][$article->title][".date('F j', $article->createTime)."]<br>";
+print "[$article->id][$article->title][$article->createTime]<br>";
 //   echo CHtml::link(CHtml::encode($article->post->title),array('post/show','id'=>$article->post->id));
 endforeach;
 

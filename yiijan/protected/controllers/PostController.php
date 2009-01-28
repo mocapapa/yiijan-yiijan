@@ -200,8 +200,13 @@ class PostController extends CController
 		$criteria->order='createTime DESC';
 		if(!empty($_GET['date']))
 		{
-		  $criteria->condition.=' AND createTime > :date';
-		  $criteria->params[':date']= strtotime(date('F 1, Y'), $_GET['date']);
+		  $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
+		  $month = date('n', $_GET['date']);
+		  $date = date('j', $_GET['date']);
+		  $year = date('Y', $_GET['date']);
+
+		  $criteria->params[':time1']= mktime(0,0,0,$month,$date,$year);
+		  $criteria->params[':time2']= mktime(0,0,0,$month,$date+1,$year);
 		}
 
 		$pages=new CPagination(Post::model()->count($criteria));
@@ -210,7 +215,7 @@ class PostController extends CController
 
 		$posts=Post::model()->with('author')->findAll($criteria);
 
-		$this->render('list',array(
+		$this->render('date',array(
 			'posts'=>$posts,
 			'pages'=>$pages,
 		));
