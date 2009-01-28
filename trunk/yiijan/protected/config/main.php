@@ -59,7 +59,7 @@ return array(
 				       'post/<id:\d+>'=>'post/show',
 				       'post/update/<id:\d+>'=>'post/update',
 				       'tag/<tag>'=>'post/list',
-				       'poston/<date>'=>'post/postedon',
+				       'postedon/<date>'=>'post/postedon',
 					       ),
 				    ),
 			    ),
