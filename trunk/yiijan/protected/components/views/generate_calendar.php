@@ -1,4 +1,5 @@
 <?php
+# これはEUCではなくUTFのファイルです。
 # PHP Calendar (version 2.3), written by Keith Devens
 # http://keithdevens.com/software/php_calendar
 #  see example at http://keithdevens.com/weblog
