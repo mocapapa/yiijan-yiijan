@@ -151,4 +151,18 @@ class Post extends CActiveRecord
 		Comment::model()->deleteAll('postId='.$this->id);
 		$this->dbConnection->createCommand('DELETE FROM PostTag WHERE postId='.$this->id)->execute();
 	}
+
+        /**
+         * @return array the artcles posted in this month
+         */
+        public function findArtclePostedThisMonth()
+        {
+	  $criteria=array(
+			  'condition'=>'createTime > '.strtotime(date('F 1, Y')),
+			  'order'=>'Post.createTime DESC',
+			  );
+	  return $this->findAll($criteria);
+        }
+
+
 }

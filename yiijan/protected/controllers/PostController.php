@@ -190,6 +190,33 @@ class PostController extends CController
 	}
 
 	/**
+	 * Collect posts issued on specific date
+	 */
+	public function actionPostedon()
+	{
+
+		$criteria=new CDbCriteria;
+		$criteria->condition='status='.Post::STATUS_PUBLISHED;
+		$criteria->order='createTime DESC';
+		if(!empty($_GET['date']))
+		{
+		  $criteria->condition.=' AND createTime > :date';
+		  $criteria->params[':date']= strtotime(date('F 1, Y'), $_GET['date']);
+		}
+
+		$pages=new CPagination(Post::model()->count($criteria));
+		$pages->pageSize=Yii::app()->params['postsPerPage'];
+		$pages->applyLimit($criteria);
+
+		$posts=Post::model()->with('author')->findAll($criteria);
+
+		$this->render('list',array(
+			'posts'=>$posts,
+			'pages'=>$pages,
+		));
+	}
+
+	/**
 	 * Generates the hyperlinks for post tags.
 	 * This is mainly used by the view that displays a post.
 	 * @param Post the post instance
