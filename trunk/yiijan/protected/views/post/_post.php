@@ -3,7 +3,7 @@
     <img src="/demos/blog2/1x1.jpg" height="4">
     <table><tr><td>
 <!--      <?php echo CHtml::image(Yii::app()->homeUrl.'Document.png', '', array('width'=>'48')); ?> -->
-<?php $this->widget('PostDate', array('dt'=>date('F j',$post->createTime))); ?>
+      <?php $this->widget('PostDate', array('ct'=>date('F<\b\r>j', $post->createTime))); ?>
     </td>
     <td><?php echo CHtml::link(CHtml::encode($post->title),array('post/show','id'=>$post->id)); ?></td>
     </tr></table>
