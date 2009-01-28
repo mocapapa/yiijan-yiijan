@@ -198,12 +198,12 @@ class PostController extends CController
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
 		$criteria->order='createTime DESC';
-		if(!empty($_GET['date']))
+		if(!empty($_GET['time']))
 		{
 		  $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
-		  $month = date('n', $_GET['date']);
-		  $date = date('j', $_GET['date']);
-		  $year = date('Y', $_GET['date']);
+		  $month = date('n', $_GET['time']);
+		  $date = date('j', $_GET['time']);
+		  $year = date('Y', $_GET['time']);
 
 		  $criteria->params[':time1']= mktime(0,0,0,$month,$date,$year);
 		  $criteria->params[':time2']= mktime(0,0,0,$month,$date+1,$year);
