@@ -61,7 +61,7 @@ class PostController extends CController
 	{
 		return array(
 			array('allow',  // allow all users to perform 'list' and 'show' actions
-				'actions'=>array('list','show','captcha'),
+			      'actions'=>array('list','show','captcha','postedon'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated users to perform any action
