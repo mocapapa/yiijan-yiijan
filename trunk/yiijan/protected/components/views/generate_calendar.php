@@ -5,6 +5,13 @@
 #  see example at http://keithdevens.com/weblog
 # License: http://keithdevens.com/software/license
 
+$post = new Post;
+
+foreach($post->findArtclePostedThisMonth() as $article):
+print "[$article->id][$article->title][".date('F j', $article->createTime)."]<br>";
+//   echo CHtml::link(CHtml::encode($article->post->title),array('post/show','id'=>$article->post->id));
+endforeach;
+
 function generate_calendar($year, $month, $days = array(), $day_name_length = 3, $month_href = NULL, $first_day = 0, $pn = array()){
   $first_of_month = gmmktime(0,0,0,$month,1,$year);
 #remember that mktime will automatically correct if invalid dates are entered
@@ -39,10 +46,10 @@ function generate_calendar($year, $month, $days = array(), $day_name_length = 3,
     if(isset($days[$day]) and is_array($days[$day])){
       @list($link, $classes, $content) = $days[$day];
       if(is_null($content))  $content  = $day;
-      $calendar .= '<td'.($classes ? ' class="'.htmlspecialchars($classes).'">' : '>').
+      $calendar .= '<td align="right"'.($classes ? ' class="'.htmlspecialchars($classes).'">' : '>').
 	($link ? '<a href="'.htmlspecialchars($link).'">'.$content.'</a>' : $content).'</td>';
     }
-    else $calendar .= "<td>$day</td>";
+    else $calendar .= "<td align=\"right\">$day</td>";
   }
   if($weekday != 7) $calendar .= '<td colspan="'.(7-$weekday).'">&nbsp;</td>';
   
