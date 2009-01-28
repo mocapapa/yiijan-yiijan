@@ -1,23 +1,14 @@
 <?php
-
 class PostDate extends CWidget
 {
   public $title='PostDate';
   public $cssClass='postdate';
   public $contentCssClass='content';
   public $visible=true;
-  public $dt;
-
-  public function __construct($str='',$data='') {
-    parent::__construct($str);
-
-    print_r($data);
-    $dt = $str;
-  }
+  public $ct;
 
   public function init($data='')
   {
-    print_r($data);
     if(!$this->visible)
       return;
     echo "<div class=\"{$this->cssClass}\">\n";
@@ -25,7 +16,6 @@ class PostDate extends CWidget
 
   public function run($data='')
   {
-    print_r($data);
     if(!$this->visible)
       return;
     $this->renderContent();
@@ -34,6 +24,10 @@ class PostDate extends CWidget
 
   protected function renderContent()
   {
-    $this->render('postDate');
+    echo "<center>";
+    print '<font size="3">';
+    print $this->ct;
+    print "</font>";
+    echo "</center>";
   }
 }
