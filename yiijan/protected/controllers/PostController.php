@@ -192,7 +192,7 @@ class PostController extends CController
 	/**
 	 * Collect posts issued on specific date
 	 */
-	public function actionOnate()
+	public function actionPostedOnDate()
 	{
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
@@ -221,9 +221,9 @@ class PostController extends CController
 	}
 
 	/**
-	 * Collect posts issued on specific month
+	 * Collect posts issued in specific month
 	 */
-	public function actionInMonth()
+	public function actionPostedInMonth()
 	{
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
@@ -235,7 +235,10 @@ class PostController extends CController
 		  $date = date('j', $_GET['time']);
 		  $year = date('Y', $_GET['time']);
 
-		  $criteria->params[':time1']= mktime(0,0,0,$month,$date,$year);
+		  if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
+		  if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
+		  
+		  $criteria->params[':time1']= $st = mktime(0,0,0,$month,$date,$year);
 		  $criteria->params[':time2']= mktime(0,0,0,$month+1,$date,$year);
 		}
 
@@ -248,6 +251,7 @@ class PostController extends CController
 		$this->render('month',array(
 			'posts'=>$posts,
 			'pages'=>$pages,
+			'time'=> $st,	
 		));
 	}
 

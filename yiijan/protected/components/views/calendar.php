@@ -23,7 +23,7 @@ endforeach;
 
 // Previous month and next month
 
-$pn = array('&lt;'=>'prevMonth', '&gt;'=>'nextMonth');
+$pn = array('&lt;'=>CHtml::normalizeUrl(array('month/'.$this->st.'/p')), '&gt;'=>CHtml::normalizeUrl(array('month/'.$this->st.'/n')));
 
 // Execution
 echo generate_calendar(Date("Y"), Date("n"), $days, 3, NULL, 0, $pn);
