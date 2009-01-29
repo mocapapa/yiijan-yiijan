@@ -4,7 +4,7 @@ class Calendar extends Portlet
 {
   public $title='Calendar';
 
-  public $currentMonth;
+  public $st;
 
 	public function init()
 	{

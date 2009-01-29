@@ -60,7 +60,7 @@ return array(
 				       'post/update/<id:\d+>'=>'post/update',
 				       'tag/<tag>'=>'post/list',
 				       'date/<time:\d+>'=>'post/PostedOnDate',
-				       'month/<time:\d+>/<np:n|p>'=>'post/PostedInMonth',					       ),
+				       'month/<time:\d+>/<pn:p|n>'=>'post/PostedInMonth',					       ),
 				    ),
 			    ),
 );

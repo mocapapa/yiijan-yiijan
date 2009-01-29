@@ -61,7 +61,7 @@ class PostController extends CController
 	{
 		return array(
 			array('allow',  // allow all users to perform 'list' and 'show' actions
-			      'actions'=>array('list','show','captcha','postedon'),
+			      'actions'=>array('list','show','captcha','PostedInMonth','PostedOnDate'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated users to perform any action
@@ -228,11 +228,12 @@ class PostController extends CController
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
 		$criteria->order='createTime DESC';
+
 		if(!empty($_GET['time']))
 		{
 		  $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
 		  $month = date('n', $_GET['time']);
-		  $date = date('j', $_GET['time']);
+		  $date = 1;
 		  $year = date('Y', $_GET['time']);
 
 		  if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
@@ -240,19 +241,20 @@ class PostController extends CController
 		  
 		  $criteria->params[':time1']= $st = mktime(0,0,0,$month,$date,$year);
 		  $criteria->params[':time2']= mktime(0,0,0,$month+1,$date,$year);
+		  $pages=new CPagination(Post::model()->count($criteria));
+		  $pages->pageSize=Yii::app()->params['postsPerPage'];
+		  $pages->applyLimit($criteria);
+		  
+		  $posts=Post::model()->with('author')->findAll($criteria);
+		  
+		  $this->render('month',array(
+					      'posts'=>$posts,
+					      'pages'=>$pages,
+					      'time'=> $st,  // unneed?
+					      ));
+		  
 		}
 
-		$pages=new CPagination(Post::model()->count($criteria));
-		$pages->pageSize=Yii::app()->params['postsPerPage'];
-		$pages->applyLimit($criteria);
-
-		$posts=Post::model()->with('author')->findAll($criteria);
-
-		$this->render('month',array(
-			'posts'=>$posts,
-			'pages'=>$pages,
-			'time'=> $st,	
-		));
 	}
 
 	/**
