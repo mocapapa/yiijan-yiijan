@@ -1,5 +1,15 @@
 <?php if(!empty($_GET['time'])): ?>
-<h3>Posts Issued in "<?php echo CHtml::encode(date('F, Y',$_GET['time'])); ?>"</h3>
+<?php
+    $month = date('n', $_GET['time']);
+    $year = date('Y', $_GET['time']);
+
+    if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
+    if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
+
+    $st = mktime(0,0,0,$month,1,$year);
+?>
+
+<h3>Posts Issued in "<?php echo date('F, Y',$st); ?>"</h3>
 <?php endif; ?>
 
 <?php foreach($posts as $post): ?>
