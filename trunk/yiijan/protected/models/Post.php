@@ -157,8 +157,17 @@ class Post extends CActiveRecord
          */
         public function findArtclePostedThisMonth()
         {
+	  $month = date('n', $_GET['time']);
+	  $year = date('Y', $_GET['time']);
+	  
+	  if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
+	  if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
+
 	  $criteria=array(
-			  'condition'=>'createTime > '.strtotime(date('F 1, Y')),
+	  		  'condition'=>'AND createTime > :time1 AND createTime < :time2',
+		  	  'params'=>array(':time1' => mktime(0,0,0,$month,1,$year),
+			 		':time2' => mktime(0,0,0,$month+1,1,$year),
+				),
 			  'order'=>'Post.createTime DESC',
 			  );
 	  return $this->findAll($criteria);

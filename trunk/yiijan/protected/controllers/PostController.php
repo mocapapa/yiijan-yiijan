@@ -233,14 +233,13 @@ class PostController extends CController
 		{
 		  $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
 		  $month = date('n', $_GET['time']);
-		  $date = 1;
 		  $year = date('Y', $_GET['time']);
 
 		  if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
 		  if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
 		  
-		  $criteria->params[':time1']= $st = mktime(0,0,0,$month,$date,$year);
-		  $criteria->params[':time2']= mktime(0,0,0,$month+1,$date,$year);
+		  $criteria->params[':time1']= $st = mktime(0,0,0,$month,1,$year);
+		  $criteria->params[':time2']= mktime(0,0,0,$month+1,1,$year);
 		  $pages=new CPagination(Post::model()->count($criteria));
 		  $pages->pageSize=Yii::app()->params['postsPerPage'];
 		  $pages->applyLimit($criteria);
