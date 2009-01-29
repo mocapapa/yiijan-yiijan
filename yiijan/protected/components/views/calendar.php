@@ -26,17 +26,15 @@ endforeach;
 
 if (!empty($_GET['time'])) {
   $month = date('n', $_GET['time']);
-  $date = 1;
   $year = date('Y', $_GET['time']);
   
   if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
   if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
  } else {
   $month = date('n');
-  $date = 1;
   $year = date('Y');
  }
-$st = mktime(0,0,0,$month,$date,$year);
+$st = mktime(0,0,0,$month,1,$year);
 
 $pn = array('&lt;'=>CHtml::normalizeUrl(array('month/'.$st.'/p')), '&gt;'=>CHtml::normalizeUrl(array('month/'.$st.'/n')));
 
