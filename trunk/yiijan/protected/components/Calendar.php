@@ -4,13 +4,16 @@ class Calendar extends Portlet
 {
   public $title='Calendar';
 
+  public $currentMonth;
+
 	public function init()
 	{
-		parent::init();
+	  parent::init();
 	}
 
 	protected function renderContent()
 	{
 		$this->render('calendar');
 	}
+
 }

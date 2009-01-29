@@ -39,10 +39,10 @@ function generate_calendar($year, $month, $days = array(), $day_name_length = 3,
     if(isset($days[$day]) and is_array($days[$day])){
       @list($link, $classes, $content) = $days[$day];
       if(is_null($content))  $content  = $day;
-      $calendar .= '<td align="right"'.($classes ? ' class="'.htmlspecialchars($classes).'">' : '>').
+      $calendar .= '<td align="center"'.($classes ? ' class="'.htmlspecialchars($classes).'">' : '>').
 	($link ? '<a href="'.htmlspecialchars($link).'">'.$content.'</a>' : $content).'</td>';
     }
-    else $calendar .= "<td align=\"right\">$day</td>";
+    else $calendar .= "<td align=\"center\">$day</td>";
   }
   if($weekday != 7) $calendar .= '<td colspan="'.(7-$weekday).'">&nbsp;</td>';
   
