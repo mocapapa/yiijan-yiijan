@@ -59,8 +59,8 @@ return array(
 				       'post/<id:\d+>'=>'post/show',
 				       'post/update/<id:\d+>'=>'post/update',
 				       'tag/<tag>'=>'post/list',
-				       'postedon/<time:\d+>'=>'post/postedon',
-					       ),
+				       'date/<time:\d+>'=>'post/PostedOnDate',
+				       'month/<time:\d+>/<np:n|p>'=>'post/PostedInMonth',					       ),
 				    ),
 			    ),
 );
