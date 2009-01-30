@@ -153,6 +153,7 @@ class Post extends CActiveRecord
 	}
 
         /**
+	 * Find articles posted in this month
          * @return array the artcles posted in this month
          */
         public function findArtclePostedThisMonth()
@@ -160,7 +161,6 @@ class Post extends CActiveRecord
 	  if (!empty($_GET['time'])) {
 	    $month = date('n', $_GET['time']);
 	    $year = date('Y', $_GET['time']);
-
 	    if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
 	    if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
 	  } else {
