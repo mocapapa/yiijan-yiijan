@@ -197,16 +197,13 @@ class PostController extends CController
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
 		$criteria->order='createTime DESC';
-		if(!empty($_GET['time']))
-		{
-		  $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
-		  $month = date('n', $_GET['time']);
-		  $date = date('j', $_GET['time']);
-		  $year = date('Y', $_GET['time']);
 
-		  $criteria->params[':time1']= mktime(0,0,0,$month,$date,$year);
-		  $criteria->params[':time2']= mktime(0,0,0,$month,$date+1,$year);
-		}
+		$criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
+		$month = date('n', $_GET['time']);
+		$date = date('j', $_GET['time']);
+		$year = date('Y', $_GET['time']);
+		$criteria->params[':time1']= $theDay = mktime(0,0,0,$month,$date,$year);
+		$criteria->params[':time2']= mktime(0,0,0,$month,$date+1,$year);
 
 		$pages=new CPagination(Post::model()->count($criteria));
 		$pages->pageSize=Yii::app()->params['postsPerPage'];
@@ -217,6 +214,7 @@ class PostController extends CController
 		$this->render('date',array(
 			'posts'=>$posts,
 			'pages'=>$pages,
+			'theDay'=>$theDay,
 		));
 	}
 
@@ -229,30 +227,26 @@ class PostController extends CController
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
 		$criteria->order='createTime DESC';
 
-		if(!empty($_GET['time']))
-		{
-		  $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
-		  $month = date('n', $_GET['time']);
-		  $year = date('Y', $_GET['time']);
+		$criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
+		$month = date('n', $_GET['time']);
+		$year = date('Y', $_GET['time']);
+		if ($_GET['pn'] == 'n') $month++;
+		if ($_GET['pn'] == 'p') $month--;
+		$criteria->params[':time1']= $firstDay = mktime(0,0,0,$month,1,$year);
+		$criteria->params[':time2']= mktime(0,0,0,$month+1,1,$year);
 
-		  if (!empty($_GET['pn']) && $_GET['pn'] == 'n') $month++;
-		  if (!empty($_GET['pn']) && $_GET['pn'] == 'p') $month--;
+		$pages=new CPagination(Post::model()->count($criteria));
+		$pages->pageSize=Yii::app()->params['postsPerPage'];
+		$pages->applyLimit($criteria);
+		
+		$posts=Post::model()->with('author')->findAll($criteria);
+		
+		$this->render('month',array(
+					    'posts'=>$posts,
+					    'pages'=>$pages,
+					    'firstDay'=> $firstDay,
+					    ));
 		  
-		  $criteria->params[':time1']= $st = mktime(0,0,0,$month,1,$year);
-		  $criteria->params[':time2']= mktime(0,0,0,$month+1,1,$year);
-		  $pages=new CPagination(Post::model()->count($criteria));
-		  $pages->pageSize=Yii::app()->params['postsPerPage'];
-		  $pages->applyLimit($criteria);
-		  
-		  $posts=Post::model()->with('author')->findAll($criteria);
-		  
-		  $this->render('month',array(
-					      'posts'=>$posts,
-					      'pages'=>$pages,
-					      'time'=> $st,  // unneed?
-					      ));
-		  
-		}
 
 	}
 

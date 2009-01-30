@@ -1,5 +1,7 @@
 <?php include_once('header.php');?>
   <div id="sidebar">
+    <?php $this->widget('Calendar'); ?>
+
     <?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
 
     <?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
@@ -11,8 +13,6 @@
     <?php $this->widget('Link'); ?>
 
     <?php $this->widget('Nhkclock'); ?>
-
-    <?php $this->widget('Calendar'); ?>
 
   </div><!-- sidebar -->
 
