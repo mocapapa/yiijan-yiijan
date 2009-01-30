@@ -1,9 +1,8 @@
 <center>
 <ul class="Calendar">
 <?php
-   //print_r($this->controller->firstDay);
 // Set locale
-   $locale='ja_JP.utf8';
+$locale='ja_JP.utf8';
 $setlocale = setlocale(LC_ALL,  $locale);
 
 // load the algorithm of the calendar
@@ -33,7 +32,7 @@ $pn = array('&lt;'=>CHtml::normalizeUrl(array('month/'.$firstDay.'/p')),
 $days = array();
 if ($firstDay <= time() && time() < $firstDayNextMonth) {
   $today = date('j', time());
-  $days[$today] = array(NULL,NULL,'<span style="color:#990000; font-weight: bold;">'.$today.'</span>');
+  $days[$today] = array(NULL,NULL,'<span id="today">'.$today.'</span>');
 }
 
 // Make the links
@@ -43,7 +42,9 @@ foreach($post->findArtclePostedThisMonth() as $article):
 endforeach;
 
 // Execution
-echo generate_calendar($year, $month, $days, 3, NULL, 0, $pn);
+if (isset($locale) && $locale == 'ja_JP.utf8') $len = 3;
+else $len = 2;
+echo generate_calendar($year, $month, $days, $len, NULL, 0, $pn);
 ?>
 </ul>
 </center>

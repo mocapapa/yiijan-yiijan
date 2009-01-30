@@ -32,3 +32,14 @@ ul.Calendar a:hover
 {
 	border:solid 1px #0e509e;
 }
+
+ul.Calendar td
+{
+	text-align: center;
+}
+
+ul.Calendar #today
+{
+	color:#990000;
+	font-weight: bold;
+}
