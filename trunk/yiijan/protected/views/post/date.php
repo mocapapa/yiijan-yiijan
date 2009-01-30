@@ -1,6 +1,4 @@
-<?php if(!empty($_GET['time'])): ?>
-<h3>Posts Issued on "<?php echo CHtml::encode(date('F j, Y',$_GET['time'])); ?>"</h3>
-<?php endif; ?>
+<h3>Posts Issued on "<?php echo CHtml::encode(date('F j, Y',$theDay)); ?>"</h3>
 
 <?php foreach($posts as $post): ?>
 <?php $this->renderPartial('_post',array(
