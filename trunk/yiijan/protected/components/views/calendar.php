@@ -44,7 +44,7 @@ endforeach;
 // Execution
 if (isset($locale) && $locale == 'ja_JP.utf8') $len = 3;
 else $len = 2;
-echo generate_calendar($year, $month, $days, $len, NULL, 0, $pn);
+echo generate_calendar($year, $month, $days, $len, CHtml::normalizeUrl(array('month/'.$firstDay.'/c')), 0, $pn);
 ?>
 </ul>
 </center>
