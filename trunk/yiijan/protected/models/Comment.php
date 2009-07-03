@@ -59,19 +59,20 @@ class Comment extends CActiveRecord
 			'author'=>'Name',
 			'url'=>'Website',
 			'content'=>'Comment',
+			'verifyCode'=>'Verification Code',
 		);
 	}
 
 	/**
-	 * @return array list of attributes that can be massively assigned.
+	 * @return array attributes that can be massively assigned
 	 */
 	public function safeAttributes()
 	{
 		return array(
-			'content',
 			'author',
-			'url',
 			'email',
+			'url',
+			'content',
 			'verifyCode',
 		);
 	}
@@ -147,7 +148,7 @@ class Comment extends CActiveRecord
 	 */
 	protected function beforeValidate($on)
 	{
-		$parser=new CMarkdownParser;
+	  $parser=new MarkdownParserHighslide;
 		$this->contentDisplay=$parser->safeTransform($this->content);
 		if($this->isNewRecord)
 			$this->createTime=time();
