@@ -16,9 +16,7 @@
 	        'submit'=>array('comment/approve','id'=>$comment->id),
 	    )); ?> |
 	  <?php endif; ?>
-<!--    <img src="/demos/blog2/Update.png" width="20"> -->
       <?php echo CHtml::link('Update',array('comment/update','id'=>$comment->id)); ?> |
-<!--      <img src="/demos/blog2/Delete.png" width="20"> -->
       <?php echo CHtml::linkButton('Delete', array(
 	        'submit'=>array('comment/delete','id'=>$comment->id),
             'confirm'=>"Are you sure to delete comment #{$comment->id}?",

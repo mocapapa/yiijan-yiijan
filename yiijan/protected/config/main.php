@@ -2,7 +2,7 @@
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
-//
+
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -17,10 +17,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.extensions.*',
 	),
-
-	// using 'classic' theme
-	'theme'=>'classic',
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
@@ -52,15 +50,30 @@ return array(
 			*/
 		),
 		'urlManager'=>array(
-				'showScriptName'=>false,
-				'urlFormat'=>'path',
-				'rules'=>array(
-				       'posts'=>'post/list',
-				       'post/<id:\d+>'=>'post/show',
-				       'post/update/<id:\d+>'=>'post/update',
-				       'tag/<tag>'=>'post/list',
-				       'date/<time:\d+>'=>'post/PostedOnDate',
-				       'month/<time:\d+>/<pn:p|n>'=>'post/PostedInMonth',					       ),
-				    ),
-			    ),
+		    // 	'urlFormat'=>'path',
+			'rules'=>array(
+				'tag/<tag>'=>'post/list',
+				'posts'=>'post/list',
+				'post/<id:\d+>'=>'post/show',
+				'post/update/<id:\d+>'=>'post/update',
+				'date/<time:\d+>'=>'post/PostedOnDate',
+				'month/<time:\d+>/<pnc:p|c|n>'=>'post/PostedInMonth',
+			),
+		),
+		'clientScript'=>array(
+				      /*
+				      'class'=>'application.components.ExtendedClientScript',
+				      'combineFiles'=>true,
+				      'compressCss'=>true,
+				      'compressJs'=>true,
+				      */
+				      ),
+
+                'cache'=>array(
+                               'class'=>'system.caching.CMemCache',
+                               'servers'=>array(
+                                                array('host'=>'localhost', 'port'=>11211, 'weight'=>60),
+                                                ),
+                               ),
+	    ),
 );

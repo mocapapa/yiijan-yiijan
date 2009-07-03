@@ -147,24 +147,61 @@ class PostController extends CController
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
 		$criteria->order='createTime DESC';
+		$withOption=array('author');
 		if(!empty($_GET['tag']))
 		{
-			$criteria->join='JOIN PostTag ON PostTag.postId=Post.id JOIN Tag ON PostTag.tagId=Tag.id';
-			$criteria->condition.=' AND Tag.name=:tag';
-			$criteria->params[':tag']=$_GET['tag'];
+			$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
+			$postCount=Post::model()->with($withOption)->count($criteria);
 		}
+		else
+			$postCount=Post::model()->count($criteria);
 
-		$pages=new CPagination(Post::model()->count($criteria));
+		$pages=new CPagination($postCount);
 		$pages->pageSize=Yii::app()->params['postsPerPage'];
 		$pages->applyLimit($criteria);
 
-		$posts=Post::model()->with('author')->findAll($criteria);
-
+		$posts=Post::model()->with($withOption)->findAll($criteria);
 		$this->render('list',array(
 			'posts'=>$posts,
 			'pages'=>$pages,
 		));
 	}
+
+        /**
+         * Sitewide search.
+         * Shows a particular post searched.
+         */
+        public function actionSearch()
+        {
+	        $criteria=new CDbCriteria;
+		$criteria->condition='status='.Post::STATUS_PUBLISHED;
+		$criteria->order='createTime DESC';
+		$search=new SiteSearchForm;
+		
+		if(isset($_POST['SiteSearchForm'])) {
+		        $search->attributes=$_POST['SiteSearchForm'];
+			$_GET['searchString'] = $search->string;
+		} else {
+	 	        $search->string=$_GET['searchString'];
+		}
+
+		$criteria->condition .=' AND content LIKE :keyword';
+		$criteria->params=array(':keyword'=>'%'.$search->string.'%');
+		
+		$postCount=Post::model()->count($criteria);
+		$pages=new CPagination($postCount);
+		$pages->pageSize=Yii::app()->params['postsPerPage'];
+		$pages->applyLimit($criteria);
+		
+		$posts=Post::model()->findAll($criteria);
+		
+		$this->render('found',array(
+					   'posts'=>$posts,
+					   'pages'=>$pages,
+					   'search'=>$search,
+					   ));
+
+        }
 
 	/**
 	 * Manages all posts.
@@ -190,67 +227,6 @@ class PostController extends CController
 	}
 
 	/**
-	 * Collect posts issued on specific date
-	 */
-	public function actionPostedOnDate()
-	{
-		$criteria=new CDbCriteria;
-		$criteria->condition='status='.Post::STATUS_PUBLISHED;
-		$criteria->order='createTime DESC';
-
-		$criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
-		$month = date('n', $_GET['time']);
-		$date = date('j', $_GET['time']);
-		$year = date('Y', $_GET['time']);
-		$criteria->params[':time1']= $theDay = mktime(0,0,0,$month,$date,$year);
-		$criteria->params[':time2']= mktime(0,0,0,$month,$date+1,$year);
-
-		$pages=new CPagination(Post::model()->count($criteria));
-		$pages->pageSize=Yii::app()->params['postsPerPage'];
-		$pages->applyLimit($criteria);
-
-		$posts=Post::model()->with('author')->findAll($criteria);
-
-		$this->render('date',array(
-			'posts'=>$posts,
-			'pages'=>$pages,
-			'theDay'=>$theDay,
-		));
-	}
-
-	/**
-	 * Collect posts issued in specific month
-	 */
-	public function actionPostedInMonth()
-	{
-		$criteria=new CDbCriteria;
-		$criteria->condition='status='.Post::STATUS_PUBLISHED;
-		$criteria->order='createTime DESC';
-
-		$criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
-		$month = date('n', $_GET['time']);
-		$year = date('Y', $_GET['time']);
-		if ($_GET['pn'] == 'n') $month++;
-		if ($_GET['pn'] == 'p') $month--;
-		$criteria->params[':time1']= $firstDay = mktime(0,0,0,$month,1,$year);
-		$criteria->params[':time2']= mktime(0,0,0,$month+1,1,$year);
-
-		$pages=new CPagination(Post::model()->count($criteria));
-		$pages->pageSize=Yii::app()->params['postsPerPage'];
-		$pages->applyLimit($criteria);
-		
-		$posts=Post::model()->with('author')->findAll($criteria);
-		
-		$this->render('month',array(
-					    'posts'=>$posts,
-					    'pages'=>$pages,
-					    'firstDay'=> $firstDay,
-					    ));
-		  
-
-	}
-
-	/**
 	 * Generates the hyperlinks for post tags.
 	 * This is mainly used by the view that displays a post.
 	 * @param Post the post instance
@@ -258,13 +234,9 @@ class PostController extends CController
 	 */
 	public function getTagLinks($post)
 	{
-		$tags=$post->tags;
 		$links=array();
-		foreach($tags as $tag)
-		{
-			$url=$this->createUrl('list',array('tag'=>$tag->name));
-			$links[]=CHtml::link(CHtml::encode($tag->name),$url);
-		}
+		foreach($post->getTagArray() as $tag)
+			$links[]=CHtml::link(CHtml::encode($tag),array('list','tag'=>$tag));
 		return implode(', ',$links);
 	}
 
@@ -306,10 +278,79 @@ class PostController extends CController
 				$comment->status=Comment::STATUS_APPROVED;
 
 			if(isset($_POST['previewComment']))
-				$comment->validate(null,'insert');
+				$comment->validate('insert');
 			else if(isset($_POST['submitComment']) && $comment->save())
-				$this->redirect(array('show','id'=>$post->id,'#'=>'c'.$comment->id));
+			{
+				if($comment->status==Comment::STATUS_PENDING)
+				{
+					Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+					$this->refresh();
+				}
+				else
+					$this->redirect(array('show','id'=>$post->id,'#'=>'c'.$comment->id));
+			}
 		}
 		return $comment;
 	}
+
+	/**
+         * Collect posts issued on specific date
+         */
+        public function actionPostedOnDate()
+        {
+          $criteria=new CDbCriteria;
+          $criteria->condition='status='.Post::STATUS_PUBLISHED;
+          $criteria->order='createTime DESC';
+
+          $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
+          $month = date('n', $_GET['time']);
+          $date = date('j', $_GET['time']);
+          $year = date('Y', $_GET['time']);
+          $criteria->params[':time1']= $theDay = mktime(0,0,0,$month,$date,$year);
+          $criteria->params[':time2']= mktime(0,0,0,$month,$date+1,$year);
+
+          $pages=new CPagination(Post::model()->count($criteria));
+          $pages->pageSize=Yii::app()->params['postsPerPage'];
+          $pages->applyLimit($criteria);
+
+          $posts=Post::model()->with('author')->findAll($criteria);
+
+          $this->render('date',array(
+                                     'posts'=>$posts,
+                                     'pages'=>$pages,
+                                     'theDay'=>$theDay,
+                                     ));
+        }
+
+        /**
+         * Collect posts issued in specific month
+         */
+        public function actionPostedInMonth()
+        {
+          $criteria=new CDbCriteria;
+          $criteria->condition='status='.Post::STATUS_PUBLISHED;
+          $criteria->order='createTime DESC';
+
+          $criteria->condition.=' AND createTime > :time1 AND createTime < :time2';
+          $month = date('n', $_GET['time']);
+          $year = date('Y', $_GET['time']);
+          if ($_GET['pnc'] == 'n') $month++;
+          if ($_GET['pnc'] == 'p') $month--;
+          $criteria->params[':time1']= $firstDay = mktime(0,0,0,$month,1,$year);
+          $criteria->params[':time2']= mktime(0,0,0,$month+1,1,$year);
+
+          $pages=new CPagination(Post::model()->count($criteria));
+          $pages->pageSize=Yii::app()->params['postsPerPage'];
+          $pages->applyLimit($criteria);
+
+          $posts=Post::model()->with('author')->findAll($criteria);
+
+          $this->render('month',array(
+                                      'posts'=>$posts,
+                                      'pages'=>$pages,
+                                      'firstDay'=> $firstDay,
+                                      ));
+
+
+        }
 }
