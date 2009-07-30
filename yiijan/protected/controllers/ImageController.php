@@ -1,7 +1,7 @@
 <?php
 /*
  * Image Gallery
- * $Id: ImageController.php 34 2009-06-18 03:01:46Z mocapapa@g.pugpug.org $
+ * $Id: ImageController.php 48 2009-07-28 07:58:21Z mocapapa@g.pugpug.org $
  */
 
 class ImageController extends CController {
@@ -10,12 +10,16 @@ class ImageController extends CController {
 
   public function actionUpload()
   {
+    $cs=Yii::app()->getClientScript();
+    $cs->registerCoreScript('jquery');
+
     $model=new Image;
 
     if(isset($_FILES['Image'])) {
       $model->image=CUploadedFile::getInstance($model,'image');
-      $name = $model->image->name;
-      if ($name != '') {
+
+      if ($model->validate()) {
+	$name = $model->image->name;
 	if (file_exists(Yii::app()->params['imageHomeAbs'].$name)) {
 	  // already there
 	  $v = 2;
@@ -24,11 +28,9 @@ class ImageController extends CController {
 	    $name = $match[1].'('.$v++.').'.$match[2];
 	  } while (file_exists(Yii::app()->params['imageHomeAbs'].$name));
 	}
-	if ($model->validate())
+	if ($model->validate()) {
 	  $model->image->saveAs(Yii::app()->params['imageHomeAbs'].$name);
-      } else {
-	// blank validation
-	$model->validate();
+	}
       }
     }
     // directory search                                                          
@@ -42,9 +44,6 @@ class ImageController extends CController {
       }
     }
     asort($filelist, SORT_STRING);
-
-    $cs=Yii::app()->getClientScript();
-    $cs->registerCoreScript('jquery');
 
     $this->render('gallery', array(
                                    'model'=>$model,
