@@ -6,9 +6,8 @@ class EyiiVersion {
 
   public static function getVersion() {
     
-    $value=Yii::app()->cache->get(self::ID);
-
-    if($value===false) {
+    //    $value=Yii::app()->cache->get(self::ID);
+    //    if($value===false) {
       $file=Yii::app()->basePath.'/../../../framework/YiiBase.php';
       $fh = fopen($file, 'r');
       $flag = true;
@@ -20,8 +19,8 @@ class EyiiVersion {
 	}
       }
       fclose($fh);
-      Yii::app()->cache->set(self::ID, $value, 3600*24, new CFileCacheDependency($file));
-    }
+      //      Yii::app()->cache->set(self::ID, $value, 3600*24, new CFileCacheDependency($file));
+      //    }
     return $value;
   }
 }
