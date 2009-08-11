@@ -7,6 +7,7 @@
 <title><?php echo isset($this->pageTitle)? $this->pageTitle:''; ?></title>
 
 <?php
+  Yii::app()->session['startTime'] = microtime();
 // javascript
   $cs=Yii::app()->clientScript;
   $cs->registerCoreScript('jquery');
@@ -71,7 +72,13 @@
     <center>
     <p><?php echo Yii::app()->params['copyrightInfo']; ?><br/>
     All Rights Reserved.<br/>
-    <?php echo Yii::powered(); echo Yii::getVersion()."&nbsp;(r".EyiiVersion::getVersion().")"; ?></p><br>
+    <?php echo Yii::powered(); echo Yii::getVersion()."&nbsp;(r".EyiiVersion::getVersion().")"; ?>
+    <?php
+    list($e1, $e0) = explode(" ", microtime());
+    list($s1, $s0) = explode(" ", Yii::app()->session['startTime']);
+    print(sprintf(", rendered in %.2f[msec]<br><br>", (($e1+$e0)-($s1+$s0))*1000.0));
+?>
+</p><br>
     </center>
   </div><!-- footer -->
 </div><!-- container -->
