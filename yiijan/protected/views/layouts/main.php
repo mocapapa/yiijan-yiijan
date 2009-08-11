@@ -76,7 +76,7 @@
     <?php
     list($e1, $e0) = explode(" ", microtime());
     list($s1, $s0) = explode(" ", Yii::app()->session['startTime']);
-    print(sprintf(", rendered in %.2f[msec]<br><br>", (($e1+$e0)-($s1+$s0))*1000.0));
+    print(sprintf(", rendered in %.2f[msec]", (($e1+$e0)-($s1+$s0))*1000.0));
 ?>
 </p><br>
     </center>
