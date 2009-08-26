@@ -36,7 +36,7 @@ class PostController extends CController
 			// captcha action renders the CAPTCHA image
 			// this is used by the contact page
 			'captcha'=>array(
-				'class'=>'CCaptchaAction',
+				'class'=>'CaptchaAction',
 				'backColor'=>0xF5F5F5,
 			),
 		);
