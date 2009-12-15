@@ -33,7 +33,7 @@ if (file_exists($current.$file))
 else
   $size=array(100, 100);
 
-$bb = Yii::app()->params['imageThumbnailBoundingbox'];
+$bb = Yii::app()->params['imageThumbnailBoundingBox'];
 if ($size[0] > $bb && $size[1] <= $bb)
   $whtext = 'width';
 else if ($size[0] <= $bb && $size[1] > $bb)
