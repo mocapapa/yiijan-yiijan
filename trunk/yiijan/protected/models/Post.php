@@ -37,30 +37,17 @@ class Post extends CActiveRecord
 	}
 
 	/**
-	 * @return array attributes that can be massively assigned
-	 */
-	public function safeAttributes()
-	{
-		return array(
-			'title',
-			'content',
-			'status',
-			'tags',
-		);
-	}
-
-	/**
 	 * @return array relational rules.
 	 */
 	public function relations()
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
-			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'order'=>'??.createTime'),
+			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'order'=>'comments.createTime'),
 			'tagFilter'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)',
 				'together'=>true,
 				'joinType'=>'INNER JOIN',
-				'condition'=>'??.name=:tag'),
+				'condition'=>'tagFilter.name=:tag'),
 		);
 	}
 
@@ -96,7 +83,7 @@ class Post extends CActiveRecord
 	/**
 	 * Prepares attributes before performing validation.
 	 */
-	protected function beforeValidate($on)
+	protected function beforeValidate()
 	{
 	  $parser=new MarkdownParserHighslide;
 		$this->contentDisplay=$parser->safeTransform($this->content);

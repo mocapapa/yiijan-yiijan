@@ -69,11 +69,11 @@ return array(
 				      */
 				      ),
 
-                'cache'=>array(
-                               'class'=>'system.caching.CMemCache',
-                               'servers'=>array(
-                                                array('host'=>'localhost', 'port'=>11211, 'weight'=>60),
-                                                ),
-                               ),
+		//        'cache'=>array(
+		//                               'class'=>'system.caching.CMemCache',
+		//                               'servers'=>array(
+		//					array('host'=>'localhost', 'port'=>11211, 'weight'=>60),
+		//					),
+		//		),
 	    ),
 );
