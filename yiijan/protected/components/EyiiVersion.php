@@ -13,7 +13,7 @@ class EyiiVersion {
       $flag = true;
       while(($rec = fgets($fh)) && $flag) {
 	if (strpos($rec, '$Id:')) {
-	  $tok = split(' ', $rec);
+	  $tok = explode(' ', $rec);
 	  $value = $tok[5];
 	  $flag = false;
 	}
