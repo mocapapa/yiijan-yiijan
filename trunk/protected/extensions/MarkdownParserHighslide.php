@@ -2,7 +2,7 @@
 #
 # My Markdown Parser Class
 #
-  // @version $Id: MarkdownParserHighslide.php 18 2009-05-07 01:42:32Z mocapapa@g.pugpug.org $
+  // @version $Id: MarkdownParserHighslide.php 55 2010-01-27 14:58:01Z mocapapa@g.pugpug.org $
 class MarkdownParserHighslide extends CMarkdownParser {
 
 	public function doImages($text) {
@@ -107,11 +107,11 @@ class MarkdownParserHighslide extends CMarkdownParser {
                 $url = Yii::app()->request->baseUrl.'/'.Yii::app()->params['imageHome'].$url;
 
                 $whtext = '';
-                $bbw = Yii::app()->params['imageBoundingboxWidth'];
-                $bbh = Yii::app()->params['imageBoundingboxHeight'];
+                $bbw = Yii::app()->params['imageBoundingBoxWidth'];
+                $bbh = Yii::app()->params['imageBoundingBoxHeight'];
 
-                if (Yii::app()->params['imageBoundingbox'] != '') {
-                      $bbw = $bbh = Yii::app()->params['imageBoundingbox'];
+                if (Yii::app()->params['imageBoundingBox'] != '') {
+                      $bbw = $bbh = Yii::app()->params['imageBoundingBox'];
                 }
 
                 if ($bbw != '' && $bbh == '') {

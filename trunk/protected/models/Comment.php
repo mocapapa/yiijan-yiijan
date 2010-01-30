@@ -109,8 +109,8 @@ class Comment extends CActiveRecord
 	public function findRecentComments($limit=10)
 	{
 		$criteria=array(
-			'condition'=>'Comment.status='.self::STATUS_APPROVED,
-			'order'=>'Comment.createTime DESC',
+			'condition'=>'t.status='.self::STATUS_APPROVED,
+			'order'=>'t.createTime DESC',
 			'limit'=>$limit,
 		);
 		return $this->with('post')->findAll($criteria);

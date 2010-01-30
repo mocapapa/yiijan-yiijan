@@ -132,12 +132,11 @@ class Post extends CActiveRecord
          */
         public function findRecentPosts($limit=10)
         {
-          $criteria=array(
-                          'condition'=>'Post.status='.self::STATUS_PUBLISHED,
-                          'order'=>'Post.createTime DESC',
+          return $this->findAll(array(
+                          'condition'=>'t.status='.self::STATUS_PUBLISHED,
+                          'order'=>'t.createTime DESC',
                           'limit'=>$limit,
-                          );
-          return $this->findAll($criteria);
+				      ));
         }
 
         /**
@@ -156,14 +155,12 @@ class Post extends CActiveRecord
             $year = date('Y');
           }
 
-          $criteria=array(
-                          'condition'=>'createTime > :time1 AND createTime < :time2
-                                        AND Post.status='.self::STATUS_PUBLISHED,
-                          'params'=>array(':time1' => mktime(0,0,0,$month,1,$year),
-                                          ':time2' => mktime(0,0,0,$month+1,1,$year),
-                                          ),
-                          'order'=>'Post.createTime DESC',
-                          );
-          return $this->findAll($criteria);
-        }
+          return $this->findAll(array(
+				      'condition'=>'createTime > :time1 AND createTime < :time2 AND t.status='.self::STATUS_PUBLISHED,
+				      'params'=>array(':time1' => mktime(0,0,0,$month,1,$year),
+						      ':time2' => mktime(0,0,0,$month+1,1,$year),
+						      ),
+				      'order'=>'t.createTime DESC',
+				      ));
+	}
 }
