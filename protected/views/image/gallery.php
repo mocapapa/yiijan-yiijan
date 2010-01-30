@@ -33,6 +33,7 @@ if (file_exists($current.$file))
 else
   $size=array(100, 100);
 
+$whtext = '';
 $bb = Yii::app()->params['imageThumbnailBoundingBox'];
 if ($size[0] > $bb && $size[1] <= $bb)
   $whtext = 'width';
@@ -66,4 +67,4 @@ CHtml::$count++;
 
 <br/>
 <?php //$this->widget('CLinkPager',array('pages'=>$pages)); ?>
-<!-- $Id: gallery.php 34 2009-06-18 03:01:46Z mocapapa@g.pugpug.org $ -->
+<!-- $Id: gallery.php 55 2010-01-27 14:58:01Z mocapapa@g.pugpug.org $ -->

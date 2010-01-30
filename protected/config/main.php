@@ -5,6 +5,7 @@
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'blog',
@@ -50,7 +51,8 @@ return array(
 			*/
 		),
 		'urlManager'=>array(
-		    // 	'urlFormat'=>'path',
+			'showScriptName'=>false, // enable this (false) when .htaccess takes effect on the host
+			'urlFormat'=>'path',
 			'rules'=>array(
 				'tag/<tag>'=>'post/list',
 				'posts'=>'post/list',
@@ -58,22 +60,24 @@ return array(
 				'post/update/<id:\d+>'=>'post/update',
 				'date/<time:\d+>'=>'post/PostedOnDate',
 				'month/<time:\d+>/<pnc:p|c|n>'=>'post/PostedInMonth',
+				'rss.xml'=>'post/feed',
 			),
 		),
+                'widgetCollapse'=>array(
+			'class'=>'WidgetCollapse',
+			'enable'=>true,
+		),
+                'highslide'=>array(
+			'class'=>'Highslide',
+			'enable'=>true,
+		),
 		'clientScript'=>array(
-				      /*
-				      'class'=>'application.components.ExtendedClientScript',
-				      'combineFiles'=>true,
-				      'compressCss'=>true,
-				      'compressJs'=>true,
-				      */
-				      ),
-
-		//        'cache'=>array(
-		//                               'class'=>'system.caching.CMemCache',
-		//                               'servers'=>array(
-		//					array('host'=>'localhost', 'port'=>11211, 'weight'=>60),
-		//					),
-		//		),
-	    ),
+			/*
+			  'class'=>'application.components.ExtendedClientScript',
+			  'combineFiles'=>true,
+			  'compressCss'=>true,
+			  'compressJs'=>true,
+			*/
+		),
+	),
 );
