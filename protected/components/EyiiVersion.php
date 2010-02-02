@@ -1,5 +1,5 @@
 <?php
-// @version $Id: YiiBase.php
+// @version $Id$
 class EyiiVersion {
 
   const ID = 'EyiiVersion';
