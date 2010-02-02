@@ -59,10 +59,9 @@ Yii::app()->highslide->init();
     All Rights Reserved.<br/>
     <?php echo Yii::powered(); echo Yii::getVersion()."&nbsp;(r".EyiiVersion::getVersion().")"; ?>
     <?php
-    list($e1, $e0) = explode(" ", microtime());
-    list($s1, $s0) = explode(" ", Yii::app()->session['startTime']);
-    print(sprintf(", rendered in %.2f[msec]\n", (($e1+$e0)-($s1+$s0))*1000.0));
-?>
+      $timer = Yii::app()->timer;
+      print(sprintf(", rendered in %.2f[msec]\n", $timer->timer()));
+    ?>
 </p><br>
     </center>
   </div><!-- footer -->

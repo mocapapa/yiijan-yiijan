@@ -31,8 +31,8 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'class'=>'CWebLogRoute',
+					'levels'=>'error, warning, trace',
 				),
 			),
 		),
@@ -70,6 +70,9 @@ return array(
                 'highslide'=>array(
 			'class'=>'Highslide',
 			'enable'=>true,
+		),
+		'timer'=>array(
+			'class'=>'Timer',
 		),
 		'clientScript'=>array(
 			/*
