@@ -22,14 +22,6 @@ require_once('Zend/Feed/Rss.php');
 
 class PostController extends CController
 {
-	public function __construct($id,$module=null)
-	{
-		$time = microtime();
-		Yii::trace('session:'.$time,'controller.PostController');
-		Yii::app()->session['startTime'] = $time;
-		parent::__construct($id,$module);
-	}
-
 	/**
 	 * @var string specifies the default action to be 'list'.
 	 */

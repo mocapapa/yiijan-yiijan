@@ -5,8 +5,9 @@ $yii=dirname(__FILE__).'/../../framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
 
 // remove the following line when in production mode
-defined('YII_DEBUG') or define('YII_DEBUG',true);
+// defined('YII_DEBUG') or define('YII_DEBUG',true);
 
 require_once($yii);
-Yii::app()->session['startTime'] = microtime();
-Yii::createWebApplication($config)->run();
+$app=Yii::createWebApplication($config);
+$app->timer->init();
+$app->run();
