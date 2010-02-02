@@ -58,10 +58,7 @@ Yii::app()->highslide->init();
     <p><?php echo Yii::app()->params['copyrightInfo']; ?><br/>
     All Rights Reserved.<br/>
     <?php echo Yii::powered(); echo Yii::getVersion()."&nbsp;(r".EyiiVersion::getVersion().")"; ?>
-    <?php
-      $timer = Yii::app()->timer;
-      print(sprintf(", rendered in %.2f[msec]\n", $timer->timer()));
-    ?>
+    <?php print(sprintf(", rendered in %.2f[msec]\n", Yii::app()->timer->getTimer())); ?>
 </p><br>
     </center>
   </div><!-- footer -->
