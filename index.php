@@ -11,3 +11,8 @@ require_once($yii);
 $app=Yii::createWebApplication($config);
 $app->timer->init();
 $app->run();
+
+function dynamicTimer()                                                                                
+{                                                                                                      
+  return sprintf(", rendered in %.2f[msec]&nbsp;", Yii::app()->timer->getTimer());
+}
