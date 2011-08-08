@@ -21,9 +21,9 @@ Yii::app()->highslide->init();
 <body class="page">
 <div id="container">
   <div id="header">
-    <H1><?php echo CHtml::link(CHtml::image($baseUrl.'/systemImages/yiijan-logo.jpg','', array('border'=>'0')),Yii::app()->homeUrl); ?>
+      <h1><?php echo CHtml::link(CHtml::image($baseUrl.'/systemImages/yiijan-logo.jpg','', array('border'=>'0')),Yii::app()->homeUrl); ?>
       <div id="rss"><?php echo CHtml::link(CHtml::image($baseUrl.'/systemImages/feed.gif'),array('post/feed')); ?></div>
-    </H1>
+    </h1>
   </div><!-- header -->
 
   <div id="sidebar">
@@ -61,7 +61,7 @@ Yii::app()->highslide->init();
     All Rights Reserved.<br/>
     <?php echo Yii::powered(); echo Yii::getVersion()."&nbsp;(r".EyiiVersion::getVersion().")"; ?>
     <?php print(sprintf(", rendered in %.2f[msec]\n", Yii::app()->timer->getTimer())); ?>
-</p><br>
+</p><br />
     </center>
   </div><!-- footer -->
 </div><!-- container -->
