@@ -93,5 +93,8 @@ return array(
 			  'compressJs'=>true,
 			*/
 		),
+		'cache' => array(
+			'class' => 'CApcCache',
+		),
 	),
 );
