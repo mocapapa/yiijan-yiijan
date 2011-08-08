@@ -25,6 +25,17 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>require(dirname(__FILE__).'/params.php'),
 
+	'modules'=>array(
+		// uncomment the following to enable the Gii tool
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'generatorPaths'=>array(
+				'application.gii',   // a path alias
+			),
+			'password'=>'moca89',
+		),
+	),
+
 	// application components
 	'components'=>array(
 		'log'=>array(

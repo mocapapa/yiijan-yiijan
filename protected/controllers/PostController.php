@@ -16,10 +16,6 @@
  * @version $Id$
  */
 
-Yii::import('application.vendors.*');
-require_once('Zend/Feed.php');
-require_once('Zend/Feed/Rss.php');
-
 class PostController extends CController
 {
 	/**
