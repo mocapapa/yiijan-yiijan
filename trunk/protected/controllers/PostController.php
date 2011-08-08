@@ -51,16 +51,14 @@ class PostController extends CController
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			array(
-				'COutputCache + index',
+				'COutputCache + list,postedOnDate,postedInMonth,show',
 				'duration'=>3600*24,
-				/*
 				'varyByParam'=>array(
 					'id',
 					'tag',
 					'time',
 					'pnc',
 				),
-				*/
 				'dependency'=>array(
 					'class'=>'CChainedCacheDependency',
 					'dependencies'=>array(
