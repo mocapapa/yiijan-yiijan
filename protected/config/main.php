@@ -71,7 +71,7 @@ return array(
 				'post/update/<id:\d+>'=>'post/update',
 				'date/<time:\d+>'=>'post/PostedOnDate',
 				'month/<time:\d+>/<pnc:p|c|n>'=>'post/PostedInMonth',
-				'rss.xml'=>'post/feed',
+				'rss.xml'=>'feed',
 			),
 		),
                 'widgetCollapse'=>array(
