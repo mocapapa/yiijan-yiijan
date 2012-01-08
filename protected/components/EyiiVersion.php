@@ -8,6 +8,12 @@ class EyiiVersion {
     
     //    $value=Yii::app()->cache->get(self::ID);
     //    if($value===false) {
+
+    $cmd = 'svn info '.Yii::app()->basePath.'/../../../framework/';
+    exec( $cmd, $output, $return_code );
+    $rev = explode(' ', $output[8]);
+
+    /*
       $file=Yii::app()->basePath.'/../../../framework/YiiBase.php';
       $fh = fopen($file, 'r');
       $flag = true;
@@ -21,6 +27,8 @@ class EyiiVersion {
       fclose($fh);
       //      Yii::app()->cache->set(self::ID, $value, 3600*24, new CFileCacheDependency($file));
       //    }
-    return $value;
+    */
+    return $rev[3];
+
   }
 }
